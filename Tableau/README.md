@@ -1,10 +1,3 @@
-
----
-
-# 📈 **Tableau — README.md**
-Файл:  
-`PROJECTSHUB/Tableau/README.md`
-```md
 # 📈 Tableau Dashboards Collection
 
 ## Overview
@@ -31,17 +24,25 @@ Each workbook includes interactive filters, KPI indicators and executive-level v
 
 ---
 
-## Notes
-- All `.twbx` files include embedded datasets.  
-- Demo projects for public portfolio use.  
+## Downloads (.twbx on Google Drive)
+- AIR USA 2015 — [link](https://drive.google.com/file/d/1toW7PbzZVKCvrOBas08M8p07u9dR6K_Z/view?usp=sharing)  
+- CRM Overview — [link](https://drive.google.com/file/d/1e9hMuZ8o-p5eowvcc4cGhZrdQVE5KQ2A/view?usp=sharing)  
+- EU Sample — [link](https://drive.google.com/file/d/1NgJNbISwOfe4ZyQxyIhbxvhA3GweQr1R/view?usp=sharing)  
+- Superstore CRM — [link](https://drive.google.com/file/d/1LCgp5PILjdOPgPdyC1Y8q6x3LoHU_AV3/view?usp=sharing)
 
-📁 [Download Tableau Dashboards (.twbx)]
-(https://drive.google.com/file/d/1toW7PbzZVKCvrOBas08M8p07u9dR6K_Z/view?usp=sharing)
-(https://drive.google.com/file/d/1e9hMuZ8o-p5eowvcc4cGhZrdQVE5KQ2A/view?usp=sharing)
-(https://drive.google.com/file/d/1NgJNbISwOfe4ZyQxyIhbxvhA3GweQr1R/view?usp=sharing)
-(https://drive.google.com/file/d/1LCgp5PILjdOPgPdyC1Y8q6x3LoHU_AV3/view?usp=sharing)
+> Set sharing: **Anyone with the link – Viewer**.
+
+---
+
+## Screenshots
+![EU Sample](./screenshots/EU_Sample.png)
+![AIR USA 2015](./screenshots/AIR_USA_2015.png)
+![Superstore high level](./screenshots/Superstore_high_level.png)
+![Superstore Orders](./screenshots/Superstore_Orders.png)
+![Superstore Profit](./screenshots/Superstore_Profit.png)
+![Superstore Sales](./screenshots/Superstore_Sales.png)
 
 ---
 
 ## License
-MIT License © 2025 Denys Mierkulov
+MIT License © 2025 **Denys Mierkulov**

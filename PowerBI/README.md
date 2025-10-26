@@ -44,17 +44,39 @@ Dynamic comparison of sales by product, region and time.
 
 ---
 
-## Notes
-- `.pbix` files >50 MB are hosted externally via Google Drive.  
-- All data are anonymized and for demonstration purposes only.
+## Downloads (.pbix on Google Drive)
+- Retail Sales — [link](https://drive.google.com/file/d/124IlSCvUCjRDFMreh19eW1i8uzk1tIJv/view?usp=sharing)  
+- Financial Flows — [link](https://drive.google.com/file/d/1iEFnjFhfuuXVm7BvVVXxd6ROPT7umv2i/view?usp=sharing)  
+- Profit & Sales — [link](https://drive.google.com/file/d/1HI1gqeINTrXKlinHYx_0-XOeg9REmdUf/view?usp=sharing)  
+- Sales Dashboard — [link](https://drive.google.com/file/d/107RXn1DGgeBotGxqbzRIneSidsHNuH01/view?usp=sharing)
 
-📁 [Download Power BI files (.pbix)]
-(https://drive.google.com/file/d/124IlSCvUCjRDFMreh19eW1i8uzk1tIJv/view?usp=sharing)
-(https://drive.google.com/file/d/1iEFnjFhfuuXVm7BvVVXxd6ROPT7umv2i/view?usp=sharing)
-(https://drive.google.com/file/d/1HI1gqeINTrXKlinHYx_0-XOeg9REmdUf/view?usp=sharing)
-(https://drive.google.com/file/d/107RXn1DGgeBotGxqbzRIneSidsHNuH01/view?usp=sharing)
+> Set sharing: **Anyone with the link – Viewer**.
+
+---
+
+## Screenshots
+> A few highlights (more in `/screenshots`).
+![01](./screenshots/1.png)
+![02](./screenshots/2.png)
+![03](./screenshots/3.png)
+![04](./screenshots/4.png)
+![05](./screenshots/1.png)
+![06](./screenshots/2.png)
+![07](./screenshots/3.png)
+![08](./screenshots/4.png)
+![09](./screenshots/1.png)
+![10](./screenshots/2.png)
+![11](./screenshots/3.png)
+![12](./screenshots/4.png)
+![13](./screenshots/1.png)
+![14](./screenshots/2.png)
+![15](./screenshots/3.png)
+![16](./screenshots/4.png)
+![17](./screenshots/4.png)
+
 
 ---
 
 ## License
-MIT License © 2025 Denуs Mierkulov
+MIT License © 2025 **Denys Mierkulov**
+

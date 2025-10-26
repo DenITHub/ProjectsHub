@@ -1,69 +1,15 @@
 # ====================================
-# Global .gitignore for ProjectsHub
+# Tableau Project .gitignore
 # ====================================
 
-# --- Python cache ---
-__pycache__/
-*.py[cod]
-*$py.class
-
-# --- Virtual environments ---
-.venv/
-env/
-ENV/
-env.bak/
-.env
-*.env
-
-# --- Data and logs ---
-data/
-data_cleaned/
-logs/
-*.csv
-*.xlsx
-*.xls
-*.db
-*.sqlite
-*.sqlite3
-*.json
-*.parquet
-
-# --- Reports and exports ---
-*.html
-*.pdf
-
-# --- Images: ignore by default, but allow screenshots used in READMEs
-*.png
-*.jpg
-!PowerBI/screenshots/*.png
-!PowerBI/screenshots/*.jpg
-!Tableau/screenshots/*.png
-!Tableau/screenshots/*.jpg
-!README_assets/**/*.png
-!README_assets/**/*.jpg
-
-
-# --- Jupyter ---
-.ipynb_checkpoints/
-*.ipynb~
-
-# --- IDE / Editors ---
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-
-# --- OS / System files ---
+# OS / Editor
 .DS_Store
 Thumbs.db
-desktop.ini
-__MACOSX/
+*.tmp
+*.bak
+*.backup
 
-# --- Power BI / Tableau (тяжёлые/закрытые форматы) ---
-*.pbix
-*.pbit
-*.rdl
-*.rds
+# Tableau workbooks and extracts
 *.twbx
 *.twb
 *.hyper
@@ -73,8 +19,20 @@ __MACOSX/
 *.tdm
 *.log
 
-# --- Temp / backups ---
-*.tmp
-*.bak
-*.backup
-~$*
+# Tableau cache and autosaves
+My Tableau Repository/
+TableauTemp/
+__MACOSX/
+
+# Exported files
+*.csv
+*.xlsx
+*.pdf
+*.png
+*.jpg
+*.json
+
+# Configs and credentials
+*.env
+*.key
+*.config
