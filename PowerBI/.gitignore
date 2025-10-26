@@ -2,40 +2,47 @@
 # Power BI Project .gitignore
 # ====================================
 
-# OS / Editor
+# --- OS / Editor ---
 .DS_Store
 Thumbs.db
 *.tmp
 *.bak
+*.backup
 
-# Power BI files (heavy / private)
+# --- Power BI files (heavy / private) ---
 *.pbix
 *.pbit
 *.rdl
 *.rds
 
-# Local cache and autosave
+# --- Local cache and autosave ---
 ~$*
 *.autosave
 *.pbix.tmp
 *.pbix.backup
 
-# Exported data or reports
+# --- Exported data or reports ---
 *.csv
 *.xlsx
 *.xls
 *.pdf
-*.png
-*.jpg
 *.json
 
-# Logs and temp folders
+# --- Images ---
+# Игнорируем все изображения, кроме тех, что нужны для README (screenshots/)
+*.png
+*.jpg
+!screenshots/**
+!screenshots/*.png
+!screenshots/*.jpg
+
+# --- Logs and temp folders ---
 logs/
 temp/
 backup/
 __MACOSX/
 
-# Credentials or configs
+# --- Credentials or configs ---
 *.env
 *.key
 *.config

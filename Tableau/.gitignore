@@ -2,14 +2,14 @@
 # Tableau Project .gitignore
 # ====================================
 
-# OS / Editor
+# --- OS / Editor ---
 .DS_Store
 Thumbs.db
 *.tmp
 *.bak
 *.backup
 
-# Tableau workbooks and extracts
+# --- Tableau workbooks and extracts ---
 *.twbx
 *.twb
 *.hyper
@@ -19,20 +19,26 @@ Thumbs.db
 *.tdm
 *.log
 
-# Tableau cache and autosaves
+# --- Tableau cache and autosaves ---
 My Tableau Repository/
 TableauTemp/
 __MACOSX/
 
-# Exported files
+# --- Exported data and reports ---
 *.csv
 *.xlsx
 *.pdf
-*.png
-*.jpg
 *.json
 
-# Configs and credentials
+# --- Images ---
+# Игнорируем все картинки, кроме тех, что нужны для README (screenshots/)
+*.png
+*.jpg
+!screenshots/**
+!screenshots/*.png
+!screenshots/*.jpg
+
+# --- Configs and credentials ---
 *.env
 *.key
 *.config
