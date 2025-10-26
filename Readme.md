@@ -13,7 +13,11 @@ Each project demonstrates applied analytics through business-driven use cases: s
 Building dashboards and analytical reports Working with key business metrics (KPI, ROI, LTV, CPA) Integrating and transforming data from multiple sources Visualizing insights using modern BI tools 
 
 📎 Contacts Author: 
+  
   Denys Mierkulov 
+  
   GitHub: DenITHub 
+  
   Email: 24061318+DenITHub@users.noreply.github.com 
+  
   LinkedIn: www.linkedin.com/in/denysmierkulov
