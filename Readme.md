@@ -1,4 +1,5 @@
 Data Analytics Portfolio — Denys Mierkulov 
+
 Welcome to my Data Analytics Projects Hub.
 
 This is a collection of practical and educational work created using Power BI, Python, Tableau, and other data analysis tools.
