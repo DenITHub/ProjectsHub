@@ -36,3 +36,27 @@ __MACOSX/
 *.env
 *.key
 *.config
+# ====================================
+# 🗂️ Personal & Local Files (not for GitHub)
+# ====================================
+
+# Docs, notes, cheat sheets
+GIT_CHEATSHEET.md
+GIT_WORKFLOW.md
+_notes/
+_docs/
+drafts/
+personal_*/ 
+
+# VS Code settings
+.vscode/
+*.code-workspace
+
+# Local-only configs or logs
+*.log
+*.bak
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
