@@ -29,12 +29,19 @@ logs/
 *.parquet
 
 # --- Reports and exports ---
-reports/
-exports/
 *.html
 *.pdf
+
+# --- Images: ignore by default, but allow screenshots used in READMEs
 *.png
 *.jpg
+!PowerBI/screenshots/*.png
+!PowerBI/screenshots/*.jpg
+!Tableau/screenshots/*.png
+!Tableau/screenshots/*.jpg
+!README_assets/**/*.png
+!README_assets/**/*.jpg
+
 
 # --- Jupyter ---
 .ipynb_checkpoints/
