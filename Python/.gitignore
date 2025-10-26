@@ -1,0 +1,61 @@
+# ====================================
+# Python Project .gitignore
+# ====================================
+
+# --- Python cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual environments ---
+.venv/
+env/
+ENV/
+env.bak/
+.env
+*.env
+
+# --- Data and logs ---
+data/
+data_cleaned/
+logs/
+*.csv
+*.xlsx
+*.xls
+*.db
+*.sqlite
+*.sqlite3
+*.json
+*.parquet
+
+# --- Reports and outputs ---
+reports/
+exports/
+*.html
+*.pdf
+*.png
+*.jpg
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*.ipynb~
+
+# --- IDE and editor configs ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- OS / System files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- BI files (common portfolio exclusion) ---
+*.pbix
+*.twbx
+
+# --- Temporary or build files ---
+*.tmp
+*.bak
+*.log

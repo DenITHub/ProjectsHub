@@ -1,0 +1,73 @@
+# ====================================
+# Global .gitignore for ProjectsHub
+# ====================================
+
+# --- Python cache ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual environments ---
+.venv/
+env/
+ENV/
+env.bak/
+.env
+*.env
+
+# --- Data and logs ---
+data/
+data_cleaned/
+logs/
+*.csv
+*.xlsx
+*.xls
+*.db
+*.sqlite
+*.sqlite3
+*.json
+*.parquet
+
+# --- Reports and exports ---
+reports/
+exports/
+*.html
+*.pdf
+*.png
+*.jpg
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*.ipynb~
+
+# --- IDE / Editors ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# --- OS / System files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+__MACOSX/
+
+# --- Power BI / Tableau (тяжёлые/закрытые форматы) ---
+*.pbix
+*.pbit
+*.rdl
+*.rds
+*.twbx
+*.twb
+*.hyper
+*.tds
+*.tdsx
+*.tde
+*.tdm
+*.log
+
+# --- Temp / backups ---
+*.tmp
+*.bak
+*.backup
+~$*

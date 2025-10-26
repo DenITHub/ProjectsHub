@@ -1,0 +1,41 @@
+# ====================================
+# Power BI Project .gitignore
+# ====================================
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+
+# Power BI files (heavy / private)
+*.pbix
+*.pbit
+*.rdl
+*.rds
+
+# Local cache and autosave
+~$*
+*.autosave
+*.pbix.tmp
+*.pbix.backup
+
+# Exported data or reports
+*.csv
+*.xlsx
+*.xls
+*.pdf
+*.png
+*.jpg
+*.json
+
+# Logs and temp folders
+logs/
+temp/
+backup/
+__MACOSX/
+
+# Credentials or configs
+*.env
+*.key
+*.config

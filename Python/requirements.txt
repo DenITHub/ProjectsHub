@@ -1,0 +1,25 @@
+
+---
+
+## ⚙️ requirements.txt (один общий)
+
+Файл:  
+`PROJECTSHUB/Python/requirements.txt`
+```text
+# Core
+pandas>=2.0.0
+numpy>=1.25.0
+
+# Visualization
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Databases
+mysql-connector-python>=8.1.0
+sqlite-utils>=3.34.0
+
+# Utilities
+prettytable>=3.8.0
+plotly>=5.18.0
+
+dash>=2.16.0

@@ -1,0 +1,38 @@
+# ====================================
+# Tableau Project .gitignore
+# ====================================
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*.backup
+
+# Tableau workbooks and extracts
+*.twbx
+*.twb
+*.hyper
+*.tds
+*.tdsx
+*.tde
+*.tdm
+*.log
+
+# Tableau cache and autosaves
+My Tableau Repository/
+TableauTemp/
+__MACOSX/
+
+# Exported files
+*.csv
+*.xlsx
+*.pdf
+*.png
+*.jpg
+*.json
+
+# Configs and credentials
+*.env
+*.key
+*.config
