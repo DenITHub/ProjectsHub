@@ -60,3 +60,6 @@ personal_*/
 # OS files
 .DS_Store
 Thumbs.db
+
+
+!Presentations/GoogleSlides/*.png
