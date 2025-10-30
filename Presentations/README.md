@@ -9,19 +9,19 @@ Open in Google Slides — or save as PDF if needed.
 ## 📊 Content
 
 ### 1) CRM Sales & Unit Economics Analysis
-![CRM Sales & Unit Economics Analysis](./GoogleSlides/crmanalysis.png)  
+![CRM](https://raw.githubusercontent.com/DenITHub/ProjectsHub/main/Presentations/GoogleSlides/crmanalysis.png)  
 **Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1SH0w7UYw_HYKaKnhBr51evCfujKKjoSGeeqDeCDze8M/edit?usp=sharing)
 
 ---
 
 ### 2) Labor Market Analysis — E-Commerce Specialist in Germany
-![E-Commerce Specialist Presentation](./GoogleSlides/e-commerce.png)  
+![E-Commerce](https://raw.githubusercontent.com/DenITHub/ProjectsHub/main/Presentations/GoogleSlides/e-commerce.png) 
 **Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1Q2AZzQwl4hU1IaXS3eB96c8rpLdnz2zKd3ZIF6h-KeM/edit?usp=sharing)
 
 ---
 
 ### 3) NovaDent Clinic — Development & Challenges
-![NovaDent Clinic Presentation](./GoogleSlides/Dental_Clinic.png)  
+![NovaDent](https://raw.githubusercontent.com/DenITHub/ProjectsHub/main/Presentations/GoogleSlides/Dental_Clinic.png) 
 **Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1x4QbJHiac2UlCR8AsrkFj8n_tV9ldvlRQwJjcohxBlI/edit?usp=sharing)
 
 ---
