@@ -22,7 +22,7 @@
 
 ## 3️⃣ NovaDent Clinic — Development & Challenges
 
-[![NovaDent Clinic](./Dental%20Clinic.png)](https://docs.google.com/presentation/d/1x4QbJHiac2UlCR8AsrkFj8n_tV9ldvlRQwJjcohxBlI/edit?usp=sharing)
+[![NovaDent Clinic](./Denta_Clinic.png)](https://docs.google.com/presentation/d/1x4QbJHiac2UlCR8AsrkFj8n_tV9ldvlRQwJjcohxBlI/edit?usp=sharing)
 
 **Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1x4QbJHiac2UlCR8AsrkFj8n_tV9ldvlRQwJjcohxBlI/edit?usp=sharing)
 
