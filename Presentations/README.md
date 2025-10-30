@@ -17,11 +17,13 @@ Each presentation includes a **thumbnail preview** and a **direct online version
  ### 2. CRM Sales & Unit Economics Analysis
 ![CRM Sales & Unit Economics Analysis](./GoogleSlides/crmanalysis.png)  
 **Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1SH0w7UYw_HYKaKnhBr51evCfujKKjoSGeeqDeCDze8M/edit?usp=sharing)
+
 ---
 
 ### 3. Labor Market Analysis — E-Commerce Specialist in Germany
 ![E-Commerce Specialist Presentation](./GoogleSlides/e-commerce.png)  
 **Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1Q2AZzQwl4hU1IaXS3eB96c8rpLdnz2zKd3ZIF6h-KeM/edit?usp=sharing)
+
 ---
 
 ## 🧠 What's Inside
