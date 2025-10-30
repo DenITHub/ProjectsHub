@@ -8,9 +8,9 @@ Each presentation includes a **thumbnail preview** and a **direct online version
 
 ## 📊 Presentations
 
-### 1. CRM Sales & Unit Economics Analysis
-![CRM Sales & Unit Economics Analysis](./GoogleSlides/crmanalysis.png)  
-**Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1SH0w7UYw_HYKaKnhBr51evCfujKKjoSGeeqDeCDze8M/edit?usp=sharing)
+### 1. NovaDent Clinic — Development & Challenges
+![NovaDent Clinic Presentation](./GoogleSlides/Dental_Clinic.png)  
+**Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1x4QbJHiac2UlCR8AsrkFj8n_tV9ldvlRQwJjcohxBlI/edit?usp=sharing)
 
 ---
 
@@ -20,9 +20,9 @@ Each presentation includes a **thumbnail preview** and a **direct online version
 
 ---
 
-### 3. NovaDent Clinic — Development & Challenges
-![NovaDent Clinic Presentation](./GoogleSlides/Dental_Clinic.png)  
-**Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1x4QbJHiac2UlCR8AsrkFj8n_tV9ldvlRQwJjcohxBlI/edit?usp=sharing)
+ ### 3. CRM Sales & Unit Economics Analysis
+![CRM Sales & Unit Economics Analysis](./GoogleSlides/crmanalysis.png)  
+**Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1SH0w7UYw_HYKaKnhBr51evCfujKKjoSGeeqDeCDze8M/edit?usp=sharing)
 
 ---
 
