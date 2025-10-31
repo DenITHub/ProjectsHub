@@ -1,8 +1,4 @@
-# ====================================
-# Python Project .gitignore
-# ====================================
-
-# === Python common ===
+# ==== PYTHON COMMON ====
 __pycache__/
 *.py[cod]
 *$py.class
@@ -13,39 +9,52 @@ env/
 .env
 *.env
 
-# === Jupyter notebooks ===
+# ==== JUPYTER NOTEBOOKS ====
 .ipynb_checkpoints/
 
-# === Data & Outputs ===
+# ==== DATA / OUTPUTS ====
 data/
 data_cleaned/
 outputs/
 reports/
 dashboard/
+
+# Ignore all tables, dumps, and databases
+*.db
+*.db3
+*.sqlite
+*.sqlite3
+
+# Ignore exports and visualizations
 *.csv
 *.xlsx
 *.xls
+*.html
 *.pdf
 *.png
 *.jpg
+*.jpeg
 *.svg
-*.html
 
-# === Logs / temp ===
+# ==== LOGS / TEMP ====
 *.log
 *.tmp
 *.bak
 *.orig
 
-# === IDE / OS ===
+# ==== IDE / OS ====
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# === Exception ===
+# ==== ALLOWLIST (files that must be kept) ====
 !skills/
 !skills/*.json
 !README.md
 !requirements.txt
+
+# ==== LOCAL EXCEPTIONS ====
+# Ignore logs and temporary databases only in App_Sakila_Python
+App_Sakila_Python/search_log.db
