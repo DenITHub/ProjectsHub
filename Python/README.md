@@ -1,4 +1,4 @@
-#     Python Projects — Data Analytics & Applications
+#  💡 Python Projects — Data Analytics & Applications
 
 This section contains two independent Python-based projects:  
 1. **App_Sakila_Python** — a console application for querying the Sakila MySQL database.  
@@ -47,7 +47,7 @@ CRM_Data_Analysis_Python/
 
 ---
 
-## 📂 Project 3: E-Commerce_Jobs_Analysis (Germany, LinkedIn)
+## 📂 Project 3: E_Commerce_Jobs_Analysis (Germany, LinkedIn)
 
 **Task**  
 1) Analyze e-commerce specialist job vacancies in Germany over the last 3–6 months.  
@@ -66,7 +66,11 @@ Note: see the list of files in the task description.
 
 ## Structure
 
-E-Commerce_Jobs_Analysis/
+E_cd D:\ProjectsHub\Python
+git add .gitignore requirements.txt README.md
+git commit -m "Finalize unified Python project structure and configs"
+git push
+Commerce_Jobs_Analysis/
 ├─ data/                          # raw JSON (LinkedIn dumps)
 ├─ outputs/                       # results: cleaned data, charts, report.md
 ├─ scripts/
@@ -96,4 +100,4 @@ E-Commerce_Jobs_Analysis/
 |----------|--------------|--------|
 | 🎬 App_Sakila_Python | Console app for MySQL Sakila DB querying and logging | [`App_Sakila_Python`](./App_Sakila_Python) |
 | 📊 CRM_Data_Analysis_Python | CRM optimization & data analysis dashboard | [`CRM_Data_Analysis_Python`](./CRM_Data_Analysis_Python) |
-| 🛒 E-Commerce_Jobs_Analysis | Analysis of LinkedIn e-commerce job postings in Germany | [`E-Commerce_Jobs_Analysis`](./E-Commerce_Jobs_Analysis) |
+| 🛒 E_Commerce_Jobs_Analysis | Analysis of LinkedIn e-commerce job postings in Germany | [`E_Commerce_Jobs_Analysis`](./E_Commerce_Jobs_Analysis) |
