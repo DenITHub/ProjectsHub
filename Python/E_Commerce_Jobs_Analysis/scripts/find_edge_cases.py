@@ -1,13 +1,13 @@
 import os, json, re
 from utils import DATA_DIR, OUTPUT_DIR
 
-# "сильные" e-com сигналы (title/description)
+# "STRONG" e-com (title/description)
 STRONG = [
     "e-commerce", "ecommerce", "online shop", "onlineshop", "webshop",
     "shopify", "shopware", "amazon", "seller central", "marketplace",
     "crm", "seo", "sea", "sem", "performance marketing", "fulfillment"
 ]
-# "слабые/общие" слова (не считаем как сигнал в одиночку)
+# "WEAK" e-com (title/description)
 WEAK = ["online", "digital", "bestellung", "bestell", "order"]
 
 def norm(s): return (s or "").lower()
@@ -39,7 +39,7 @@ def main():
                     "url": job.get("jobUrl"),
                     "strong_signals": [k for k in STRONG if k in desc],
                     "weak_signals": [k for k in WEAK if k in desc],
-                    "keep_if_strict": has_strong(desc),  # True только если есть сильные сигналы
+                    "keep_if_strict": has_strong(desc),  # True "STRONG"
                     "snippet": (job.get("description") or "").replace("\n"," ")[:220] + "..."
                 }
                 results.append(hit)

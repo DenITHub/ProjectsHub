@@ -4,7 +4,7 @@ import re
 from datetime import datetime, timedelta
 from collections import Counter
 
-# === Пути проекта ===
+# === path ===
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
@@ -37,7 +37,7 @@ def load_all_json(folder=DATA_DIR):
             print(f"[WARN] Не удалось прочитать {fname}: {e}")
     return dataset
 
-# === Даты ===
+# === date ===
 def safe_parse_date(s):
     if not s:
         return None
@@ -55,7 +55,7 @@ def filter_recent(dataset, months=6):
             out.append(job)
     return out
 
-# === Нормализация/дедуп ===
+# === re ===
 SPACE_RE = re.compile(r"\s+")
 
 def norm(s):
@@ -84,8 +84,8 @@ def strip_gender_suffix_display(s: str) -> str:
 def norm_title(s: str) -> str:
     s = "" if s is None else s
     s = s.replace("–", "-").replace("—", "-")
-    s = GENDER_TAG_RE.sub("", s)               # убираем (m/w/d) и др.
-    s = SPACE_RE.sub(" ", s).strip().lower()   # норм + lowercase
+    s = GENDER_TAG_RE.sub("", s)               
+    s = SPACE_RE.sub(" ", s).strip().lower()   
     return s
 
 
@@ -99,7 +99,7 @@ def deduplicate_records(dataset):
             seen.add(key)
     return unique
 
-# === Язык ===
+# === language ===
 DE_TOKENS = {"und","der","die","das","mit","für","bei","im","auf","kein","oder","sowie","kenntnisse"}
 EN_TOKENS = {"and","the","with","for","in","on","without","or","also","skills"}
 
@@ -109,7 +109,7 @@ def detect_lang(text):
     txt = f" {text.lower()} "
     de = sum(txt.count(f" {t} ") for t in DE_TOKENS)
     en = sum(txt.count(f" {t} ") for t in EN_TOKENS)
-    # Порог чувствительности
+    # 
     if de >= en * 2 and de >= 3:
         return "de"
     if en >= de * 2 and en >= 3:
@@ -123,7 +123,7 @@ def detect_lang(text):
     return "unknown"
 
 
-# === Классификация направления ===
+# === Clusters ===
 MARKETPLACE_WORDS = {
     "marketplace","marktplatz","amazon","seller central","ebay","zalando","otto","kaufland","temu","tiktok shop",
     "listing","a+ content","product detail page","pdp","feed-management","plentymarkets","pim","shopware"
@@ -154,7 +154,7 @@ def categorize_direction(job):
         return "unclear"
     return "mixed"
 
-# Названия, которые считаем явно связанными с e-commerce (проверяем по title)
+# title e-commerce (title)
 ECOM_TITLE_KEYWORDS = {
     "e-commerce", "ecommerce", "online shop", "onlineshop",
     "marketplace", "marktplatz", "amazon", "shopify", "shopware",
@@ -162,7 +162,7 @@ ECOM_TITLE_KEYWORDS = {
     "seo", "sem", "sea", "crm", "sales (online", "vertrieb (online"
 }
 
-# === Утилиты частот ===
+# === utils ===
 def to_percent(counts_dict):
     total = sum(counts_dict.values()) or 1
     return {k: round(v*100.0/total, 2) for k, v in counts_dict.items()}

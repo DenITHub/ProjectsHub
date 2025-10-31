@@ -1,7 +1,7 @@
 import os, json
 from utils import DATA_DIR, OUTPUT_DIR
 
-# === Списки сигналов по направлениям ===
+# === FILTERS ===
 
 # --- MARKETPLACES ---
 STRONG_MARKETPLACE = [
@@ -46,11 +46,11 @@ WEAK_MARKETING = [
     "grafik", "content", "brand", "strategie", "social media", "kampagne"
 ]
 
-# --- Общий fallback (для unclear) ---
+# --- fallback (unclear) ---
 STRONG_GENERAL = STRONG_MARKETPLACE + STRONG_SALES + STRONG_MARKETING
 WEAK_GENERAL = WEAK_MARKETPLACE + WEAK_SALES + WEAK_MARKETING
 
-# --- Определение направления по контенту ---
+
 def categorize_direction(text: str):
     text = text.lower()
     m  = any(w in text for w in STRONG_MARKETPLACE)
@@ -63,13 +63,13 @@ def categorize_direction(text: str):
         return "unclear"
     return "mixed"
 
-# --- Подготовка нормализации и проверки ---
+
 def norm(s): return (s or "").lower()
 
 def has_strong(text, strong_list): return any(k in text for k in strong_list)
 def has_any(text, strong_list, weak_list): return any(k in text for k in (strong_list + weak_list))
 
-# --- Главная функция ---
+
 def main():
     total = strong = weak_only = none = 0
     examples_none = []
@@ -98,11 +98,11 @@ def main():
             text  = f"{title} {desc}"
             total += 1
 
-            # Определяем направление
+            
             direction = categorize_direction(text)
             by_dir[direction]["total"] += 1
 
-            # Выбираем соответствующие сигналы
+            
             if direction == "marketplaces":
                 strong_list, weak_list = STRONG_MARKETPLACE, WEAK_MARKETPLACE
             elif direction == "online_sales":
@@ -112,7 +112,7 @@ def main():
             else:
                 strong_list, weak_list = STRONG_GENERAL, WEAK_GENERAL
 
-            # Проверяем наличие сигналов
+            
             if has_strong(text, strong_list):
                 strong += 1
                 by_dir[direction]["strong"] += 1
@@ -150,7 +150,7 @@ def main():
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
 
-    # === Вывод в консоль ===
+    
     print(f"\nChecked {total} vacancies (multi-direction filter)")
     print(f" - With strong e-commerce signals: {strong}")
     print(f" - With only weak signals: {weak_only}")

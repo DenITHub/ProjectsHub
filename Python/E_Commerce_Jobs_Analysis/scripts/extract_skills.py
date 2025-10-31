@@ -5,14 +5,14 @@ from utils import read_json_file, write_json, OUTPUT_DIR, SKILLS_DIR
 def compile_patterns(terms):
     patterns = {}
     for t in terms:
-        # точный поиск по словам/фразам (без ложных частичных совпадений)
+        
         patterns[t] = re.compile(rf"\b{re.escape(t.lower())}\b")
     return patterns
 
 if __name__ == "__main__":
     data = read_json_file(f"{OUTPUT_DIR}/clean_data.json")
 
-    # Загружаем отдельно инструменты и навыки
+    
     tools_list = read_json_file(f"{SKILLS_DIR}/tools.json")
     skills_list = read_json_file(f"{SKILLS_DIR}/skills.json")
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
             "skills": sorted(found_skills)
         })
 
-    # сохраняем отдельно
+    
     write_json(f"{OUTPUT_DIR}/tools_count.json",
                dict(sorted(tools_counter.items(), key=lambda x: (-x[1], x[0]))))
     write_json(f"{OUTPUT_DIR}/skills_count.json",

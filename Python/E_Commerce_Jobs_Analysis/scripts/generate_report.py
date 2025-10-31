@@ -39,7 +39,7 @@ if __name__ == "__main__":
             f.write(f"- Языки описаний: {', '.join(parts)}\n")
         f.write("\n")
 
-        # === 2) Топ Tools (инструменты) ===
+        # === 2) Top Tools ===
         f.write("## 2) Топ Tools (инструменты)\n")
         tools_items = list(tools.items())
         tools_items.sort(key=lambda x: x[1], reverse=True)
@@ -47,7 +47,7 @@ if __name__ == "__main__":
             f.write(f"- {s}: {c}\n")
         f.write("\n")
 
-        # === 3) Топ Hard Skills (навыки) ===
+        # === 3) Top Hard Skills ===
         f.write("## 3) Топ Hard Skills (навыки)\n")
         skills_items = list(skills.items())
         skills_items.sort(key=lambda x: x[1], reverse=True)
@@ -55,13 +55,13 @@ if __name__ == "__main__":
             f.write(f"- {s}: {c}\n")
         f.write("\n")
 
-        # === 4) Кластеры названий ===
+        # === 4) Clusters ===
         f.write("## 4) Кластеры названий (Top-20)\n")
         for t, c in titles[:20]:
             f.write(f"- {t}: {c}\n")
         f.write("\n")
 
-        # === 5) Tools/Skills по направлениям ===
+        # === 5) Tools/Skills Clusters ===
         f.write("## 5) Tools / Skills по направлениям\n")
 
         order = ["marketplaces", "online_marketing", "online_sales"]
@@ -93,14 +93,14 @@ if __name__ == "__main__":
                         f.write(f"- {term}: {count} ({perc}%)\n")
                     f.write("\n")
 
-        # === 6) Кластеры названий (ТОЛЬКО e-commerce-релевантные, Top-20) ===
+        # === 6) Clusters (e-commerce, Top-20) ===
         if titles_ecom:
             f.write("## 4b) Кластеры названий (только e-commerce-релевантные, Top-20)\n")
             for t, c in titles_ecom[:20]:
                 f.write(f"- {t}: {c}\n")
             f.write("\n")
 
-        # (опционально) Показать топ названий по направлениям — только релевантные
+        # (option) 
         if top_titles_by_dir_ecom:
             f.write("### 4c) Топ названий по направлениям (только e-commerce-релевантные)\n")
             order = ["marketplaces", "online_marketing", "online_sales", "mixed", "unclear"]
@@ -118,12 +118,12 @@ if __name__ == "__main__":
                         f.write(f"- {t}: {c}\n")
                     f.write("\n")
 
-        # Картинка для e-commerce-релевантных названий
+        # img e-commerce
         img_ecom = os.path.join(OUTPUT_DIR, "titles_ecom_top20.png")
         if os.path.exists(img_ecom):
             f.write("![titles_ecom_top20](./titles_ecom_top20.png)\n\n")
             
-        # === Картинки по направлениям ===
+        # === img Clusters ===
         imgs_ecom_dirs = [
             ("titles_ecom_marketplaces.png", "Marketplaces"),
             ("titles_ecom_online_marketing.png", "Online Marketing"),
@@ -136,13 +136,13 @@ if __name__ == "__main__":
                 f.write(f"### {label}\n")
                 f.write(f"![{label}](./{img_name})\n\n")
 
-        # === 7) Визуализации ===
+        # === 7) Vizualize ===
         for img in ["skills_top15.png", "titles_top10.png", "languages_pie.png"]:
             path = os.path.join(OUTPUT_DIR, img)
             if os.path.exists(path):
                 f.write(f"![{img}](./{img})\n")
                 
-# === QUALITY CHECK: общий блок + «по направлениям» (в одном with) ===
+# === QUALITY CHECK: (with) ===
 import os, json
 from urllib.parse import urlparse
 
@@ -151,7 +151,7 @@ if os.path.exists(summary_path):
     with open(summary_path, encoding="utf-8") as f_sum:
         summary = json.load(f_sum)
 
-    # --- Метрики из сводки ---
+    # --- Metrics ---
     total   = summary.get("total_vacancies", 0)
     none    = summary.get("without_signals", 0)
     pct_none = summary.get("percent_without_signals", 0)
@@ -160,7 +160,7 @@ if os.path.exists(summary_path):
     examples = summary.get("examples_without_signals", [])
     by_dir   = summary.get("by_direction", {})
 
-    # --- Хелперы для ссылок ---
+    # --- Url ---
     def _short_url(u: str) -> str:
         """Сокращённый вид ссылки для текста (без query)."""
         if not u:
@@ -182,7 +182,7 @@ if os.path.exists(summary_path):
             return u
         return "https://" + u.lstrip("/")
 
-    # --- Красивые имена направлений ---
+    # --- name Clusters ---
     directions_order = ["marketplaces", "online_marketing", "online_sales", "mixed", "unclear"]
     pretty = {
         "marketplaces": "Marketplaces",
@@ -192,9 +192,9 @@ if os.path.exists(summary_path):
         "unclear": "Unclear"
     }
 
-    # --- Пишем всё в один with ---
+    # --- with ---
     with open(os.path.join(OUTPUT_DIR, "final_report_marp.md"), "a", encoding="utf-8") as f:
-        # Заголовок секции
+        # title
         f.write(
             "\n\n---\n"
             "<!-- class: small-text -->\n"
@@ -203,18 +203,18 @@ if os.path.exists(summary_path):
             f"**Слабые:** {weak}  •  **Без сигналов:** {none} → **{pct_none:.2f}%**\n\n"
         )
 
-        # Диаграмма
+        # pie chart
         quality_img = os.path.join(OUTPUT_DIR, "quality_split_pie.png")
         if os.path.exists(quality_img):
             f.write("![width:220px](./quality_split_pie.png)\n\n")
 
-        # Краткое пояснение 
+        
         f.write(
             "<small>Проверка по полной выгрузке (2176). Основной анализ выполнен на очищенной и "
             "дедуплицированной выборке (1930). **16.9%** нерелевантных записей относятся к исходным данным.</small>\n\n"
         )
 
-        # --- Примеры (до 3-х) + краткий вывод ---
+        
         if examples:
           f.write("<small>**Примеры без e-commerce сигналов:**</small>\n")
           for ex in examples[:3]:
@@ -223,9 +223,7 @@ if os.path.exists(summary_path):
         f.write(f"\n<small>{none} ({pct_none:.2f}%) вакансий не содержат e-commerce терминов в названии или описании.</small>\n\n")
 
 
-        # -----------------------
-        # ДОБАВКА: «по направлениям» в той же секции/with
-        # -----------------------
+        
         f.write("\n\n### Доля объявлений без сигналов по направлениям\n\n")
         for d in directions_order:
             st = by_dir.get(d, {})

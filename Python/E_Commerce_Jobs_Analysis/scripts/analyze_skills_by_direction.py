@@ -8,7 +8,6 @@ from utils import (
 )
 
 def count_terms_by_direction(data, terms):
-    # Возвращает Counter по направлениям
     dir_terms = {
         "marketplaces": Counter(),
         "online_sales": Counter(),
