@@ -51,6 +51,27 @@ if (Test-Path $logDir) {
     Write-Color "Old logs cleaned." DarkGray
 }
 
+
+# === Verify .gitignore excludes sensitive files ===
+$gitignore = Join-Path $projectPath ".gitignore"
+if (Test-Path $gitignore) {
+    $ignoreRules = Get-Content $gitignore
+    $required = @(".continue/", "C:\Users\Admin\AppData\Roaming\Continue/")
+    foreach ($rule in $required) {
+        if (-not ($ignoreRules -contains $rule)) {
+            Add-Content -Path $gitignore -Value $rule
+            Write-Color "Added missing rule to .gitignore: $rule" Yellow
+        }
+    }
+} else {
+    Write-Color ".gitignore not found — creating one with secure defaults." Yellow
+    @"
+.continue/
+C:\Users\Admin\AppData\Roaming\Continue/
+"@ | Set-Content -Path $gitignore -Encoding UTF8
+}
+
+
 # === Start CLI ===
 Write-Color "Starting Continue CLI..." Cyan
 Start-Sleep -Seconds 1
