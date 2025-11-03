@@ -65,3 +65,9 @@ Thumbs.db
 
 !Presentations/GoogleSlides/*.png
 config.js
+
+# Continue configuration
+.continue/config.yaml
+
+# Continue local config
+.continue/
