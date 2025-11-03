@@ -1,83 +1,22 @@
-name: Example Config
+﻿name: ProjectsHub Config
 version: 1.0.0
 schema: v1
 
 models:
-  # Быстрый агент для команд/рутину
-  - name: fast-git
+  - name: fast
     provider: openai
-    model: gpt-4.1-mini-2025-04-14
-    apiKey: ${{ secrets.OPENAI_API_KEY }}
-    roles: [chat, edit, apply]
-    # необязательно, но помогает при лимитах:
-    # maxOutputTokens: 600
-    # temperature: 0.2
-
-  # Тяжелый агент для сложных задач (по желанию)
-  - name: deep-code
-    provider: openai
-    model: gpt-4.1-2025-04-14
-    apiKey: ${{ secrets.OPENAI_API_KEY }}
+    model: gpt-4o-mini
+    apiKey: ${OPENAI_API_KEY}
     roles: [chat, edit, apply]
 
-  # Локальный/резервный (если используешь Ollama)
-  - uses: ollama/qwen2.5-coder-7b
+defaultModel: fast
 
-# Сделай быстрый агент дефолтным
-defaultModel: fast-git
+context:
+  - provider: terminal
+  - provider: code
+  - provider: diff
 
-# (Опционально) другие провайдеры
-# - uses: anthropic/claude-4-sonnet
-#   with:
-#     ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-
-# === Git-команды через Continue ===
-custom_commands:
-  - name: status
-    description: Показать статус git
-    prompt: |
-      Выполни в текущем проекте:
-      git status
-
-  - name: commit
-    description: Коммит с сообщением
-    prompt: |
-      git add .
-      git commit -m "{{input}}"
-
-  - name: commit-ai
-    description: Автогенерация сообщения коммита по diff
-    prompt: |
-      # Сначала коротко опиши изменения на основе "git diff --cached"
-      # затем подставь текст в команду коммита:
-      git add .
-      git commit -m "<сгенерированное краткое сообщение на русском"
-
-  - name: push
-    description: Push в origin
-    prompt: |
-      git push
-
-  - name: branch
-    description: Создать новую ветку
-    prompt: |
-      git checkout -b "{{input}}"
-
-  - name: merge
-    description: Слить указанную ветку в текущую
-    prompt: |
-      git merge "{{input}}"
-
-  - name: log
-    description: Последние коммиты
-    prompt: |
-      git log --oneline -n 10
-
-  - name: sync
-    description: Авто add → commit-ai → push
-    prompt: |
-      # Сгенерируй краткое осмысленное сообщение на основе git diff --cached.
-      # Затем выполни:
-      git add .
-      git commit -m "<сгенерированное краткое сообщение"
-      git push
+prompts:
+  - uses: file://./prompts.md
+  
+allowAnonymousTelemetry: false

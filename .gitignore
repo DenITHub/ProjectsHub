@@ -36,6 +36,7 @@ __MACOSX/
 *.env
 *.key
 *.config
+
 # ====================================
 # 🗂️ Personal & Local Files (not for GitHub)
 # ====================================
@@ -63,3 +64,4 @@ Thumbs.db
 
 
 !Presentations/GoogleSlides/*.png
+config.js
