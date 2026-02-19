@@ -1,88 +1,73 @@
-# ====================================
-# Tableau Project .gitignore
-# ====================================
+# =========================
+# Global repo .gitignore
+# =========================
 
 # OS / Editor
 .DS_Store
 Thumbs.db
+desktop.ini
 *.tmp
 *.bak
 *.backup
+*.swp
 
-# Tableau workbooks and extracts
-*.twbx
-*.twb
-*.hyper
-*.tds
-*.tdsx
-*.tde
-*.tdm
-*.log
+# IDE
+.vscode/
+.idea/
+*.code-workspace
 
-# Tableau cache and autosaves
-My Tableau Repository/
-TableauTemp/
-__MACOSX/
-
-# Exported files
-*.csv
-*.xlsx
-*.pdf
-*.png
-*.jpg
-*.json
-
-# Configs and credentials
+# Secrets / configs
+.env
 *.env
 *.key
+*.pem
+*.pfx
 *.config
 
-# ====================================
-# 🗂️ Personal & Local Files (not for GitHub)
-# ====================================
-
-# Docs, notes, cheat sheets
+# Personal / local notes
 GIT_CHEATSHEET.md
 GIT_WORKFLOW.md
 _notes/
 _docs/
 drafts/
-personal_*/ 
+personal_*/
 
-# VS Code settings
-.vscode/
-*.code-workspace
-
-# Local-only configs or logs
-*.log
-*.bak
-*.tmp
-
-# OS files
-.DS_Store
-Thumbs.db
-
-
-!Presentations/GoogleSlides/*.png
-config.js
-
-# Continue configuration
+# Continue (local tool config)
+.continue/
 .continue/config.yaml
 
-# Continue local config
-.continue/
+# Node / misc
+node_modules/
 
-# Python venv / cache
+# Python caches (global)
+**/__pycache__/
+**/*.py[cod]
+**/.ipynb_checkpoints/
 **/.venv/
 **/venv/
-**/__pycache__/
-**/*.pyc
-**/.ipynb_checkpoints/
 
-# Big data/artifacts (do not publish)
+# Heavy data/artifacts (global)
 **/data/
 **/database/
 **/outputs/
+**/reports/
 **/*.db
+**/*.db3
 **/*.sqlite
+**/*.sqlite3
 **/*.parquet
+**/*.log
+
+# Keep portfolio assets
+!Presentations/GoogleSlides/*.png
+
+# Ignore exports and visualizations
+*.csv
+*.xlsx
+*.xls
+*.html
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.svg
