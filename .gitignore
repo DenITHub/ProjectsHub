@@ -71,3 +71,18 @@ config.js
 
 # Continue local config
 .continue/
+
+# Python venv / cache
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.pyc
+**/.ipynb_checkpoints/
+
+# Big data/artifacts (do not publish)
+**/data/
+**/database/
+**/outputs/
+**/*.db
+**/*.sqlite
+**/*.parquet
