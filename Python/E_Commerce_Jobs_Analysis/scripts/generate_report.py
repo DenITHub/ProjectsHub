@@ -1,7 +1,10 @@
+# scripts/generate_report.py
 import os
 import json
+from urllib.parse import urlparse
 from utils import OUTPUT_DIR
 
+# ---------- helpers ----------
 def load_or(path, default):
     try:
         with open(path, encoding="utf-8") as f:
@@ -9,229 +12,300 @@ def load_or(path, default):
     except Exception:
         return default
 
-if __name__ == "__main__":
-  skills = load_or(f"{OUTPUT_DIR}/skills_count.json", {})
-  tools  = load_or(f"{OUTPUT_DIR}/tools_count.json", {})
-  titles = load_or(f"{OUTPUT_DIR}/title_clusters.json", [])
-  langs  = load_or(f"{OUTPUT_DIR}/language_stats.json", {})
-  dirs_c = load_or(f"{OUTPUT_DIR}/direction_counts.json", {})
-  dirs_p = load_or(f"{OUTPUT_DIR}/direction_shares.json", {})
-  skills_by_dir = load_or(f"{OUTPUT_DIR}/skills_by_direction.json", {})
-  tools_by_dir  = load_or(f"{OUTPUT_DIR}/tools_by_direction.json", {})
-  titles_ecom = load_or(f"{OUTPUT_DIR}/title_clusters_ecom.json", [])
-  top_titles_by_dir_ecom = load_or(f"{OUTPUT_DIR}/title_clusters_by_direction_ecom.json", {})
+def short_url(u: str) -> str:
+    if not u:
+        return ""
+    base = u.split("?")[0]
+    try:
+        p = urlparse(base)
+        parts = [pp for pp in p.path.split("/") if pp]
+        tail = "/".join(parts[-2:]) if len(parts) >= 2 else (parts[-1] if parts else "")
+        return f"{p.netloc}/{tail}"
+    except Exception:
+        return base
+
+def ensure_scheme(u: str) -> str:
+    if not u:
+        return ""
+    return u if u.startswith("http") else ("https://" + u.lstrip("/"))
+
+# ---------- load data ----------
+skills          = load_or(f"{OUTPUT_DIR}/skills_count.json", {})
+tools           = load_or(f"{OUTPUT_DIR}/tools_count.json", {})
+titles          = load_or(f"{OUTPUT_DIR}/title_clusters.json", [])
+langs           = load_or(f"{OUTPUT_DIR}/language_stats.json", {})
+skills_by_dir   = load_or(f"{OUTPUT_DIR}/skills_by_direction.json", {})
+tools_by_dir    = load_or(f"{OUTPUT_DIR}/tools_by_direction.json", {})
+titles_ecom     = load_or(f"{OUTPUT_DIR}/title_clusters_ecom.json", [])
+titles_ecom_dir = load_or(f"{OUTPUT_DIR}/title_clusters_by_direction_ecom.json", {})
+period_info     = load_or(f"{OUTPUT_DIR}/period_info.json", {})                 # {min_date,max_date,count_after}
+strict_summary  = load_or(f"{OUTPUT_DIR}/strict_filter_summary.json", {})       # QC summary
+soft_counts     = load_or(f"{OUTPUT_DIR}/soft_skills_count.json", {})
+seniority_total = load_or(f"{OUTPUT_DIR}/seniority_stats.json", {})
+seniority_bydir = load_or(f"{OUTPUT_DIR}/seniority_by_direction.json", {})
+
+min_date   = period_info.get("min_date", "")
+max_date   = period_info.get("max_date", "")
+clean_count = period_info.get("count_after", 0)
+
+# Для QC
+total    = strict_summary.get("total_vacancies", 0)
+none_cnt = strict_summary.get("without_signals", 0)
+pct_none = strict_summary.get("percent_without_signals", 0.0)
+strong   = strict_summary.get("with_strong_signals", 0)
+weak     = strict_summary.get("with_only_weak_signals", 0)
+examples = strict_summary.get("examples_without_signals", [])
+by_dir   = strict_summary.get("by_direction", {})
+
+# ---------- build report ----------
+report_path = os.path.join(OUTPUT_DIR, "final_report_marp.md")
+parts = []
+
+# ===== Front matter =====
+parts.append("""---
+marp: true
+theme: gaia
+paginate: true
+class: lead
+header: 'ICH · E-Commerce Jobs (Germany) · LinkedIn'
+footer: '© ICH · E-Commerce Labor Market Analysis · 2025'
+style: |
+  section { font-size: 26px; line-height: 1.4; }
+  h1, h2, h3 { letter-spacing: 0.2px; }
+  :root { --ich-accent:#0b6cff; --ich-dark:#0f172a; }
+  section.lead h1 { color: var(--ich-accent); font-weight: 800; }
+  .brand{ display:flex; align-items:center; gap:16px;}
+  .muted{ color:#64748b; font-size:22px;}
+  section.small-text{ font-size:20px; line-height:1.3; }
+---
+
+# E-Commerce Jobs (Germany)
+## LinkedIn Market Scan & Skills Analysis
+<span class="muted">Internship · ICH · 2025</span>
+""")
+
+if min_date and max_date:
+    parts.append(f"\n**Период выборки:** {min_date} → {max_date}  ")
+if clean_count:
+    parts.append(f"**Всего вакансий (после очистки):** **{clean_count}**")
+
+# ===== Goal =====
+parts.append(f"""
+---
+
+## Цель и охват
+
+**Цель:** выявить востребованные *Hard Skills* и *Tools* для E-Commerce специалистов в Германии и отличия по направлениям.
+
+**Охват:**
+- Источник: LinkedIn, 19 JSON
+- Период: *по полю `publishedAt` (последние 6 месяцев)*
+- После фильтра и дедупликации: **{clean_count} вакансии**
+- Языки вакансий: DE/EN/Bilingual (эвристика по стоп-словам)
+""")
+
+# ===== Methodology =====
+parts.append("""
+---
+
+## Методология (кратко)
+
+1. Очистка и дедупликация (ключ: *title + company + jobUrl*, нормализация `m/w/d`)
+2. Классификация направлений:
+   - **Marketplaces** · **Online Sales** · **Online Marketing**
+3. Извлечение терминов (разделено на **Tools** и **Skills**)
+4. Подсчёт частот и разрез по направлениям
+5. Визуализации и автогенерация отчёта (`report.md`)
+""")
+
+# ===== languages =====
+parts.append("""
+---
+
+## Распределение языков
+
+![width:400px](./languages_pie.png)
+
+*Языки вакансий по описанию: DE / EN / Bilingual / Unknown.*
+""")
+
+# ===== Skills top15 =====
+parts.append("""
+---
+
+## Топ-15 Hard Skills (навыки)
+
+![width:600px](./skills_top15.png)
+
+**Наблюдения:** KPI/Excel/SEO/SEA/CRM стабильно в топе.
+""")
+
+# ===== Tools top15 =====
+parts.append("""
+---
+
+## Топ-15 Tools (инструменты)
+
+![width:600px](./tools_top15.png)
+
+**Наблюдения:** Excel/MS Office, Google Ads/Analytics, API, CMS/CRM.
+""")
+
+# ===== Skills Clusters =====
+parts.append("""
+---
+
+## Skills по направлениям
+
+### Online Marketing
+![width:600px](./skills_online_marketing.png)
+
+**Фокус:** SEO · SEA · SEM · Analytics · Performance.
+
+---
+
+### Online Sales
+![width:600px](./skills_online_sales.png)
+
+**Фокус:** Excel · CRM · KPI · Auftragsbearbeitung · Inventory.
+
+---
+
+### Marketplaces
+![width:600px](./skills_marketplaces.png)
+
+**Фокус:** Amazon/Shopify/Shopware/PIM (нишевый сегмент).
+""")
+
+# ===== Tools Clusters =====
+parts.append("""
+---
+
+## Tools по направлениям
+
+### Online Marketing
+![width:600px](./tools_online_marketing.png)
+
+---
+
+### Online Sales
+![width:600px](./tools_online_sales.png)
+
+---
+
+### Marketplaces
+![width:600px](./tools_marketplaces.png)
+""")
+
+# ===== Clusters Title =====
+parts.append("""
+---
+
+## Кластеры названий (только e-commerce релевантные)
+
+![width:600px](./titles_ecom_top20.png)
+
+*Чёткий фокус на Online/E-Commerce/Digital-позиции.*
+""")
+
+# ===== Quality Check 1=====
+parts.append("""
+---
+
+## Проверка качества — Strict Filter Validation
+""")
+if os.path.exists(os.path.join(OUTPUT_DIR, "quality_split_pie.png")):
+    parts.append("![width:280px](./quality_split_pie.png)\n")
+parts.append(
+    f"**Всего вакансий:** {total}  \n"
+    f"- Сильные сигналы: **{strong}**  \n"
+    f"- Слабые сигналы: **{weak}**  \n"
+    f"- Без сигналов: **{none_cnt}** (**{pct_none:.2f}%**)\n\n"
+)
+parts.append("<small>Проверка по полной выгрузке (2176). Анализ по очищенным данным (1930).</small>\n")
+if examples:
+    parts.append("\n**Примеры без e-commerce сигналов:**")
+    for ex in examples[:2]:
+        t = (ex.get('title') or '').strip()
+        c = (ex.get('company') or '').strip()
+        parts.append(f"- {t} — {c}")
+
+# ===== Quality Check 2=====
+parts.append("""
+---
+
+## Вакансии без сигналов по направлениям
+
+<small>Процент вакансий без e-commerce сигналов:</small>
+""")
+pretty = {
+    "marketplaces": "Marketplaces",
+    "online_marketing": "Online Marketing",
+    "online_sales": "Online Sales",
+    "mixed": "Mixed",
+    "unclear": "Unclear",
+}
+order_dirs = ["marketplaces", "online_marketing", "online_sales", "mixed", "unclear"]
+for d in order_dirs:
+    st  = by_dir.get(d, {})
+    tot = st.get("total", 0) or 0
+    n0  = st.get("none", 0) or 0
+    pct = (n0 * 100.0 / tot) if tot else 0.0
+    parts.append(f"- **{pretty[d]}:** {n0}/{tot} → **{pct:.2f}%**")
+
+# ===== Soft Skills =====
+parts.append("""
+---
+
+## Soft Skills Overview — Top 10
+""")
+
+if os.path.exists(os.path.join(OUTPUT_DIR, "soft_skills_top15.png")):
+    parts.append("![width:500px](./soft_skills_top15.png)\n")
+
+if soft_counts:
+    parts.append("<small>")   
+    for name, cnt in list(soft_counts.items())[:10]:
+        parts.append(f"- **{name.title()}** — {cnt}")
+    parts.append("</small>")  
+
+parts.append(
+    "\n<small>Частые: коммуникация, организация, ответственность, командная работа.</small>\n"
+)
 
 
+# ===== Seniority =====
+parts.append("""
+---
 
-  report_path = f"{OUTPUT_DIR}/report.md"
-  with open(report_path, "w", encoding="utf-8") as f:
-        f.write("# Отчёт: анализ вакансий E-Commerce (LinkedIn, DE)\n\n")
+## Seniority Levels Overview
+""")
 
-        # === 1) Summary ===
-        total_jobs = sum(v for _, v in titles) if titles else 0
-        f.write("## 1) Summary\n")
-        f.write(f"- Общее число уникальных вакансий (после фильтра и дедупликации): **{total_jobs}**\n")
-        if dirs_c:
-            parts = [f"{k}: {v} ({dirs_p.get(k,0)}%)" for k,v in dirs_c.items()]
-            f.write(f"- Направления: {', '.join(parts)}\n")
-        if langs:
-            parts = [f"{k}: {v}" for k,v in langs.items()]
-            f.write(f"- Языки описаний: {', '.join(parts)}\n")
-        f.write("\n")
+parts.append('<div style="display: flex; justify-content: center; gap: 24px;">')
 
-        # === 2) Top Tools ===
-        f.write("## 2) Топ Tools (инструменты)\n")
-        tools_items = list(tools.items())
-        tools_items.sort(key=lambda x: x[1], reverse=True)
-        for s, c in tools_items[:30]:
-            f.write(f"- {s}: {c}\n")
-        f.write("\n")
+if os.path.exists(os.path.join(OUTPUT_DIR, "seniority_overall.png")):
+    parts.append('<img src="./seniority_overall.png" width="500px">')
+if os.path.exists(os.path.join(OUTPUT_DIR, "seniority_by_direction.png")):
+    parts.append('<img src="./seniority_by_direction.png" width="620px">')
 
-        # === 3) Top Hard Skills ===
-        f.write("## 3) Топ Hard Skills (навыки)\n")
-        skills_items = list(skills.items())
-        skills_items.sort(key=lambda x: x[1], reverse=True)
-        for s, c in skills_items[:30]:
-            f.write(f"- {s}: {c}\n")
-        f.write("\n")
-
-        # === 4) Clusters ===
-        f.write("## 4) Кластеры названий (Top-20)\n")
-        for t, c in titles[:20]:
-            f.write(f"- {t}: {c}\n")
-        f.write("\n")
-
-        # === 5) Tools/Skills Clusters ===
-        f.write("## 5) Tools / Skills по направлениям\n")
-
-        order = ["marketplaces", "online_marketing", "online_sales"]
-        pretty = {
-            "marketplaces": "Marketplaces",
-            "online_marketing": "Online Marketing",
-            "online_sales": "Online Sales",
-            "mixed": "Mixed",
-            "unclear": "Unclear"
-        }
-
-        # 5.1 Tools by direction
-        if tools_by_dir:
-            f.write("### 5.1 Tools по направлениям (топ-10 + %)\n")
-            for d in order:
-                if d in tools_by_dir and tools_by_dir[d]:
-                    f.write(f"#### {pretty.get(d, d)}\n")
-                    for term, count, perc in tools_by_dir[d]:
-                        f.write(f"- {term}: {count} ({perc}%)\n")
-                    f.write("\n")
-
-        # 5.2 Skills by direction
-        if skills_by_dir:
-            f.write("### 5.2 Hard Skills по направлениям (топ-10 + %)\n")
-            for d in order:
-                if d in skills_by_dir and skills_by_dir[d]:
-                    f.write(f"#### {pretty.get(d, d)}\n")
-                    for term, count, perc in skills_by_dir[d]:
-                        f.write(f"- {term}: {count} ({perc}%)\n")
-                    f.write("\n")
-
-        # === 6) Clusters (e-commerce, Top-20) ===
-        if titles_ecom:
-            f.write("## 4b) Кластеры названий (только e-commerce-релевантные, Top-20)\n")
-            for t, c in titles_ecom[:20]:
-                f.write(f"- {t}: {c}\n")
-            f.write("\n")
-
-        # (option) 
-        if top_titles_by_dir_ecom:
-            f.write("### 4c) Топ названий по направлениям (только e-commerce-релевантные)\n")
-            order = ["marketplaces", "online_marketing", "online_sales", "mixed", "unclear"]
-            pretty = {
-                "marketplaces": "Marketplaces",
-                "online_marketing": "Online Marketing",
-                "online_sales": "Online Sales",
-                "mixed": "Mixed",
-                "unclear": "Unclear"
-            }
-            for d in order:
-                if d in top_titles_by_dir_ecom and top_titles_by_dir_ecom[d]:
-                    f.write(f"#### {pretty.get(d, d)}\n")
-                    for t, c in top_titles_by_dir_ecom[d]:
-                        f.write(f"- {t}: {c}\n")
-                    f.write("\n")
-
-        # img e-commerce
-        img_ecom = os.path.join(OUTPUT_DIR, "titles_ecom_top20.png")
-        if os.path.exists(img_ecom):
-            f.write("![titles_ecom_top20](./titles_ecom_top20.png)\n\n")
-            
-        # === img Clusters ===
-        imgs_ecom_dirs = [
-            ("titles_ecom_marketplaces.png", "Marketplaces"),
-            ("titles_ecom_online_marketing.png", "Online Marketing"),
-            ("titles_ecom_online_sales.png", "Online Sales")
-        ]
-
-        for img_name, label in imgs_ecom_dirs:
-            path_img = os.path.join(OUTPUT_DIR, img_name)
-            if os.path.exists(path_img):
-                f.write(f"### {label}\n")
-                f.write(f"![{label}](./{img_name})\n\n")
-
-        # === 7) Vizualize ===
-        for img in ["skills_top15.png", "titles_top10.png", "languages_pie.png"]:
-            path = os.path.join(OUTPUT_DIR, img)
-            if os.path.exists(path):
-                f.write(f"![{img}](./{img})\n")
-                
-# === QUALITY CHECK: (with) ===
-import os, json
-from urllib.parse import urlparse
-
-summary_path = os.path.join(OUTPUT_DIR, "strict_filter_summary.json")
-if os.path.exists(summary_path):
-    with open(summary_path, encoding="utf-8") as f_sum:
-        summary = json.load(f_sum)
-
-    # --- Metrics ---
-    total   = summary.get("total_vacancies", 0)
-    none    = summary.get("without_signals", 0)
-    pct_none = summary.get("percent_without_signals", 0)
-    strong  = summary.get("with_strong_signals", 0)
-    weak    = summary.get("with_only_weak_signals", 0)
-    examples = summary.get("examples_without_signals", [])
-    by_dir   = summary.get("by_direction", {})
-
-    # --- Url ---
-    def _short_url(u: str) -> str:
-        """Сокращённый вид ссылки для текста (без query)."""
-        if not u:
-            return ""
-        base = u.split("?")[0]
-        try:
-            p = urlparse(base)
-            parts = [pp for pp in p.path.split("/") if pp]
-            tail = "/".join(parts[-2:]) if len(parts) >= 2 else (parts[-1] if parts else "")
-            return f"{p.netloc}/{tail}"
-        except Exception:
-            return base
-
-    def _ensure_scheme(u: str) -> str:
-        """Возвращает полный URL с https://, если его нет."""
-        if not u:
-            return ""
-        if u.startswith("http://") or u.startswith("https://"):
-            return u
-        return "https://" + u.lstrip("/")
-
-    # --- name Clusters ---
-    directions_order = ["marketplaces", "online_marketing", "online_sales", "mixed", "unclear"]
-    pretty = {
-        "marketplaces": "Marketplaces",
-        "online_marketing": "Online Marketing",
-        "online_sales": "Online Sales",
-        "mixed": "Mixed",
-        "unclear": "Unclear"
-    }
-
-    # --- with ---
-    with open(os.path.join(OUTPUT_DIR, "final_report_marp.md"), "a", encoding="utf-8") as f:
-        # title
-        f.write(
-            "\n\n---\n"
-            "<!-- class: small-text -->\n"
-            "## Проверка качества — Strict Filter Validation\n\n"
-            f"**Всего вакансий:** {total}  •  **Сильные сигналы:** {strong}  •  "
-            f"**Слабые:** {weak}  •  **Без сигналов:** {none} → **{pct_none:.2f}%**\n\n"
-        )
-
-        # pie chart
-        quality_img = os.path.join(OUTPUT_DIR, "quality_split_pie.png")
-        if os.path.exists(quality_img):
-            f.write("![width:220px](./quality_split_pie.png)\n\n")
-
-        
-        f.write(
-            "<small>Проверка по полной выгрузке (2176). Основной анализ выполнен на очищенной и "
-            "дедуплицированной выборке (1930). **16.9%** нерелевантных записей относятся к исходным данным.</small>\n\n"
-        )
-
-        
-        if examples:
-          f.write("<small>**Примеры без e-commerce сигналов:**</small>\n")
-          for ex in examples[:3]:
-            t, c, u = (ex.get("title","").strip(), ex.get("company","").strip(), ex.get("url","").strip())
-            f.write(f"- <small>{t} — {c} · [{_short_url(u)}]({_ensure_scheme(u)})</small>\n")
-        f.write(f"\n<small>{none} ({pct_none:.2f}%) вакансий не содержат e-commerce терминов в названии или описании.</small>\n\n")
+parts.append("</div>\n")  
 
 
-        
-        f.write("\n\n### Доля объявлений без сигналов по направлениям\n\n")
-        for d in directions_order:
-            st = by_dir.get(d, {})
-            tot = st.get("total", 0) or 0
-            none_dir = st.get("none", 0) or 0
-            pct_dir = (none_dir * 100.0 / tot) if tot else 0.0
-            f.write(f"- **{pretty[d]}:** {none_dir}/{tot} → **{pct_dir:.2f}%** без сигналов\n")
+if seniority_total:
+    total_s = sum(seniority_total.values())
+    parts.append("<small>")
+    for lvl, cnt in seniority_total.items():
+        pct = (cnt / total_s * 100) if total_s else 0
+        parts.append(f"- **{lvl.title()}** — {cnt} ({pct:.1f}%)")
+    parts.append("</small>")
 
-        f.write("\n<small>Показатели рассчитаны по словарям/фильтрам сигналов, специфичным для каждого направления.</small>\n")
+parts.append(
+    "\n<small>Преобладает уровень **Mid**; Senior чаще встречаются в Marketing и Marketplaces.</small>\n"
+)
 
-    print(f"Раздел 'Проверка качества' добавлен в final_report_marp.md ({pct_none:.2f}% без сигналов)")
+# ---------- write file ----------
+content = "\n".join(parts)
+with open(report_path, "w", encoding="utf-8") as f:
+    f.write(content)
+
+print(f"Готово: {report_path}")

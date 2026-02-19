@@ -34,7 +34,7 @@ def load_all_json(folder=DATA_DIR):
             if isinstance(data, list):
                 dataset.extend(data)
         except Exception as e:
-            print(f"[WARN] Не удалось прочитать {fname}: {e}")
+            print(f"[WARN] {fname}: {e}")
     return dataset
 
 # === date ===
@@ -142,17 +142,49 @@ ONLINE_MARKETING_WORDS.update({"cpc", "cpm", "ctr", "performance marketing", "me
 ONLINE_SALES_WORDS.update({"auftrag", "rechnung", "mahnen", "bestellung"})
 
 
-def categorize_direction(job):
-    text = f"{job.get('title','')} {job.get('description','')}".lower()
-    m  = any(w in text for w in MARKETPLACE_WORDS)
+def categorize_direction(job_or_text):
+    """
+    #Универсальная функция категоризации вакансии по направлению:
+    - 'marketplaces'
+    - 'online_marketing'
+    - 'online_sales'
+    - 'mixed'
+    - 'unclear'
+
+    #Принимает:
+      • dict ('title' 'description'),
+      • str ().
+    #Возвращает короткий тег направления.
+    """
+
+    # 
+    if isinstance(job_or_text, dict):
+        title = job_or_text.get("title", "") or ""
+        descr = job_or_text.get("description", "") or ""
+        text = f"{title} {descr}".lower()
+    elif isinstance(job_or_text, (str, bytes)):
+        text = str(job_or_text).lower()
+    else:
+        text = ""
+
+    # 
+    m = any(w in text for w in MARKETPLACE_WORDS)
     om = any(w in text for w in ONLINE_MARKETING_WORDS)
     osales = any(w in text for w in ONLINE_SALES_WORDS)
+
+    # 
     flags = [m, om, osales]
     if flags.count(True) == 1:
-        return "marketplaces" if m else ("online_marketing" if om else "online_sales")
-    if flags.count(True) == 0:
+        return (
+            "marketplaces" if m
+            else "online_marketing" if om
+            else "online_sales"
+        )
+    elif flags.count(True) == 0:
         return "unclear"
-    return "mixed"
+    else:
+        return "mixed"
+
 
 # title e-commerce (title)
 ECOM_TITLE_KEYWORDS = {
