@@ -1,0 +1,13 @@
+pandas
+numpy
+requests
+beautifulsoup4
+lxml
+python-dotenv
+tqdm
+jupyter
+ipykernel
+matplotlib
+scikit-learn
+tabulate
+
