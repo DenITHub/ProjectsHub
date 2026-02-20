@@ -58,3 +58,6 @@ desktop.ini
 # ==== LOCAL EXCEPTIONS ====
 # Ignore logs and temporary databases only in App_Sakila_Python
 App_Sakila_Python/search_log.db
+
+# AI Business Automation project: keep code clean, ignore docs artifacts
+**/bit_ai_business_automation_market/docs/
