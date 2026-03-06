@@ -28,7 +28,7 @@ Each presentation includes a **thumbnail preview** and a **direct online version
 
 ### 4. BIT — AI Business Automation Specialist
 ![BIT — AI Business Automation Specialist](./GoogleSlides/BIT.png)  
-**Online version:** [Open Google Slides →](PASTE_YOUR_GOOGLE_SLIDES_LINK_HERE)
+**Online version:** [Open Google Slides →](https://docs.google.com/presentation/d/1uhS7CX0A_-2jOEMHVQybLjwxk6R_NJYxfuDv6e0WZME/edit?slide=id.g3b6cf07deab_0_17#slide=id.g3b6cf07deab_0_17)
 
 ---
 
